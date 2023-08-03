@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +20,6 @@ use App\Http\Controllers\PembelianController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::controller(AuthController::class)->group(function () {
     Route::get('login', 'login')->name('login');
     Route::post('login', 'loginAksi')->name('login.aksi');
@@ -34,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/', function () {
+        return redirect()->route('login');
+    });
 
     Route::resource('pos', ProductController::class);
 
@@ -67,5 +67,14 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{id}', 'edit')->name('customer.edit');
         Route::post('edit/{id}', 'update')->name('customer.update');
         Route::get('hapus/{id}', 'hapus')->name('customer.hapus');
+    });
+
+    Route::controller(SettingController::class)->prefix('setting')->group(function () {
+        Route::get('', 'index')->name('setting');
+        Route::get('tambah', 'tambah')->name('setting.tambah');
+        Route::post('tambah', 'simpan')->name('setting.tambah.simpan');
+        Route::get('edit/{id}', 'edit')->name('setting.edit');
+        Route::post('edit/{id}', 'update')->name('setting.tambah.update');
+        Route::get('hapus/{id}', 'hapus')->name('setting.hapus');
     });
 });

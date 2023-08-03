@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('setting', function (Blueprint $table) {
-            $table->id('id_setting');
+            $table->id();
             $table->smallInteger('diskon')->default(0);
             $table->timestamps();
         });

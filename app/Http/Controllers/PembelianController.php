@@ -17,8 +17,9 @@ class PembelianController extends Controller
         $product = Product::all();
         $kategori = KategoriProduct::all();
         $customer = Customers::all();
+        $setting = Setting::all();
 
-        return view('pembelian.index', compact('product', 'kategori', 'customer'));
+        return view('pembelian.index', compact('product', 'kategori', 'customer', 'setting'));
     }
 
     public function store(Request $request)
@@ -49,6 +50,5 @@ class PembelianController extends Controller
         //      @endforeach
         // </table>
         // @endforeach
-        // 
     }
 }

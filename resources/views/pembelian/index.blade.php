@@ -140,7 +140,7 @@
                                 <!--end::Header-->
                                 <!--begin::Body-->
                                 <div class="card-body pt-0">
-                                    <select class="form-select" name="name_customers" id="name_customers" data-kt-select2="true" data-placeholder="Select option"  data-allow-clear="true">
+                                    <select  class="form-select" name="name_customers" id="name_customers" data-kt-select2="true" data-placeholder="Select option"  data-allow-clear="true">
                                         <option value="" selected disabled hidden>-- Pilih Customer --</option>
                                         @foreach ($customer as $row)
                                             <option value="{{ $row->id }}">{{ $row->name_customers }}</option>
@@ -180,8 +180,8 @@
                                         <!--begin::Content-->
                                         <div class="fs-6 fw-bold text-white text-end">
                                             <span class="d-block lh-1 mb-2" id="cartTotalPrice" data-cart-total="0">Rp. 0</span>
-                                            <span class="d-block mb-2" id="diskon" data-cart-diskon="0" value="0">0%</span>
-                                            <span class="d-block fs-2qx lh-1 final-total" id="finalPrice" data-cart-totaal="0">Rp 0</span>
+                                            <span class="d-block mb-2" id="diskon" data-cart-diskon="0" value="0">Rp. 0</span>
+                                            <span class="d-block fs-2qx lh-1" id="finalPrice" data-cart-totaal="0">Rp 0</span>
                                         </div>
                                         <!--end::Content-->
                                     </div>
@@ -267,7 +267,6 @@
                 </div>
                 <!--end::Dialer-->
             </td>
-            
             <td>
                 <button class="btn-product-delete btn btn-danger">Hapus</button>
             </td>
@@ -277,19 +276,24 @@
 @endsection
 <script>
     let dataProduct = {{ Illuminate\Support\Js::from($product) }};
+    let dataSetting = {{ Illuminate\Support\Js::from($setting) }};
     
     document.addEventListener('DOMContentLoaded', function() {
         const inputResult = document.getElementById("dataPembelian");
         const textCartTotalPrice = document.getElementById("cartTotalPrice");
         const cartWrapper = document.getElementById("tableCartItems");
         const TextDiskon = document.getElementById("diskon");
-        // const HargaDiskon = document.getElementById("hargaDiskon");
+        const finalPrice = document.getElementById("finalPrice");
 
-        const updateResult = (totalPrice, payment, products) => {
+        const updateResult = (totalPrice,idCustomers,diskonCostumer,totalDiskon,subTotal, payment, products) => {
             const data = {
                 pembelian: {
                     total_harga: totalPrice,
-                    metode_bayar: payment
+                    metode_bayar: payment,
+                    id_customers:idCustomers,
+                    diskon_customers:diskonCostumer,
+                    total_diskon:totalDiskon,
+                    subtotal:subTotal,
                 },
                 products
             };
@@ -297,7 +301,10 @@
         };
 
         const updateTextTotalPrice = () => {
+            const customers = document.getElementById("name_customers").value;
+
             let totalPrice = Number(textCartTotalPrice.dataset.cartTotal);
+            let totalDiskon = 0;
             const products = [];
 
             cartWrapper.querySelectorAll("tr").forEach(trElm => {
@@ -310,25 +317,41 @@
 
                 let persetaseDiskon =(diskon / 100) * price;
                 let hargaSetelahDiskon = price - persetaseDiskon;
-                let productTotalPrice = hargaSetelahDiskon * count;
+                let productTotalPrice = price * count;
+                let totalDiskonPerItem = persetaseDiskon * count;
 
-                // let productTotalPrice = price * count;
-                // if(diskon > 0)
-                //     productTotalPrice *= diskon / 100;
                 totalPrice += productTotalPrice;
+                totalDiskon += totalDiskonPerItem;
 
-                // products di updateResult()
                 products.push({
                     id_product: currProduct.id,
-                    jumlah_item: count
+                    jumlah_item: count,
+                    diskon:diskon,
+                    harga_item:price,
+                    total:totalDiskonPerItem
                 });
             });
 
+            const isHaveCustomer = customers.length > 0;
+            const idCustomers = isHaveCustomer  ? customers : null;
+
+            const diskonPercentCostumers = dataSetting[0].diskon;
+            let totalDiskonCostumer = 0;
+
+            if(isHaveCustomer){
+                totalDiskonCostumer = (totalPrice - totalDiskon) * (parseInt(diskonPercentCostumers)/100);
+                totalDiskon = totalDiskon + totalDiskonCostumer
+            }
+            
+            let totalHarga = totalPrice - totalDiskon ;
+            
             textCartTotalPrice.innerText = "Rp" + totalPrice;
+            TextDiskon.innerText = "Rp" + totalDiskon;
+            finalPrice.innerText = "Rp" + totalHarga  ;
 
             // updateResult
             const payment = "Cash";
-            updateResult(totalPrice, payment, products);
+            updateResult(totalHarga, idCustomers,diskonPercentCostumers,totalDiskon, totalPrice, payment, products);
         };
 
         const handlerCartMin = btn => {
@@ -374,6 +397,12 @@
 
         // Temukan semua tombol "Add to Cart"
         const btnAddCarts = document.querySelectorAll('.btn-add-cart');
+
+        const selectCostumers = document.getElementById("name_customers");
+
+        selectCostumers.addEventListener("change", function() {
+            updateTextTotalPrice();
+        });
 
         // Loop melalui setiap tombol dan tambahkan event listener
         btnAddCarts.forEach(function(btn) {

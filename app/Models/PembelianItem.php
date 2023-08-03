@@ -10,7 +10,7 @@ class PembelianItem extends Model
 {
     use HasFactory;
     protected $table = 'pembelian_item';
-    protected $fillable = ['id_pembelian', 'id_product', 'jumlah_item'];
+    protected $fillable = ['id_pembelian', 'id_product', 'jumlah_item', 'diskon', 'harga_item', 'total'];
 
     public function Product(): HasOne
     {

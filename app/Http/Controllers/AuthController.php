@@ -26,8 +26,16 @@ class AuthController extends Controller
                 'email' => trans('auth.failed')
             ]);
         }
+
+        $user = Auth::user();
+        if ($user->level === 'Admin') {
+            return redirect()->route('dashboard');
+        } elseif ($user->level === 'Kasir') {
+            return redirect()->route('pembelian');
+        }
+        // Jika autentikasi gagal
         $request->session()->regenerate();
-        return redirect()->route('dashboard');
+        return redirect()->route('login')->with('error', 'Email atau password salah.');
     }
 
     public function logout(Request $request)
