@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\SettingController;
 
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
     Route::get('/', function () {
         return redirect()->route('login');
     });
@@ -49,6 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::controller(PembelianController::class)->prefix('pembelian')->group(function () {
         Route::get('', 'index')->name('pembelian');
         Route::post('tambah', 'store')->name('pembelian.simpan');
+    });
+
+    Route::controller(OrderController::class)->prefix('order')->group(function () {
+        Route::get('', 'index')->name('order');
+        Route::get('hapus/{id}', 'hapus')->name('order.hapus');
     });
 
     Route::controller(UserController::class)->prefix('user')->group(function () {

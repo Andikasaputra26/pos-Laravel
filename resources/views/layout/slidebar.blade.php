@@ -130,11 +130,11 @@
                             <!--begin:Menu item-->
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link" href="../../demo1/dist/apps/ecommerce/sales/listing.html">
+                                <a class="menu-link" href="{{ route('order') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Daftar Pembelian</span>
+                                    <span class="menu-title">Daftar Penjualan</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -146,7 +146,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Rekapan Pembelian</span>
+                                    <span class="menu-title">Rekapan Penjualan</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
