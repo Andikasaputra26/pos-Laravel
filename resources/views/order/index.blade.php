@@ -74,21 +74,19 @@
                                 </tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600">
-                                @foreach ($pembelian as $key => $beli)
+                                @foreach ($pembelian as $beli)
                                     <tr>
                                         <td class="text-center pe-0">
                                             <span class="fw-bold" style="color:black;"> {{ $beli->created_at }} </span>
                                         </td>
 
                                         <td class="text-center pe-0">
-                                            <span class="fw-bold" style="background-color: aquamarine; color:black;"> {{ $beli->id_customers }} </span>
+                                            <span class="fw-bold" style="background-color: aquamarine; color:black;"> {{ $beli->id_customers}}</span>
                                         </td>
 
-                                        @foreach ($pembelianItem as $key => $item)
                                         <td class="text-end pe-0">
-                                            <span class="fw-bold ms-3">{{ $item->jumlah_item}}</span>
+                                            <span class="fw-bold ms-3">{{ $beli->jumlah_item}}</span>
                                         </td>
-                                        @endforeach
 
                                         <td class="text-end pe-0">
                                             <span class="fw-bold ms-3">Rp.{{ $beli->subtotal}}</span>

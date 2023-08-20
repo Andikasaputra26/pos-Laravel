@@ -289,7 +289,7 @@
             const data = {
                 pembelian: {
                     total_harga: totalPrice,
-                    metode_bayar: payment,
+                    status: payment,
                     id_customers:idCustomers,
                     diskon_customers:diskonCostumer,
                     total_diskon:totalDiskon,
@@ -350,7 +350,7 @@
             finalPrice.innerText = "Rp" + totalHarga  ;
 
             // updateResult
-            const payment = "Cash";
+            const payment = "Unpaid";
             updateResult(totalHarga, idCustomers,diskonPercentCostumers,totalDiskon, totalPrice, payment, products);
         };
 

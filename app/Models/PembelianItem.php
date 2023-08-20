@@ -17,8 +17,15 @@ class PembelianItem extends Model
         return $this->hasOne(Product::class, 'id_product');
     }
 
-    // public function Customers(): HasOne
-    // {
-    //     return $this->hasOne(Customers::class, 'name_customers');
-    // }
+    public function updateProductStock()
+    {
+        $product = Product::find($this->id);
+        if ($product) {
+            $product->stock -= $this->jumlah_item;
+            $product->save();
+        } else if ($product->isDirty('stock')) {
+            // Jika ada perubahan pada stok, pastikan tidak ada stok negatif yang disimpan
+            $product->stock = max(0, $product->stock);
+        }
+    }
 }

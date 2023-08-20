@@ -136,6 +136,7 @@ License: For each use you must have a valid license purchased only from above li
 		<script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
 		<script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
 		<script src="{{ url('dist/assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+
 		<!--end::Vendors Javascript-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="{{ url('dist/assets/js/widgets.bundle.js') }}"></script>
@@ -146,19 +147,20 @@ License: For each use you must have a valid license purchased only from above li
 		<script src="{{ url('dist/assets/js/custom/utilities/modals/new-target.js') }}"></script>
 		<script src="{{ url('dist/assets/js/custom/utilities/modals/users-search.js') }}"></script>
 		<script src="{{ url('dist/assets/js/custom/pages/general/pos.js') }}"></script>
-		<script src="{{ url('dist/assets/js/validator.js') }}"></script>
+		// <script src="{{ url('dist/assets/js/validator.js') }}"></script>
 		<!--end::Custom Javascript-->
 
 		<!-- Page level plugins -->
-		<script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
-		<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-		<link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> 
+		// <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+		// <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+		// <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet"> 
 
 
 		<!-- AJAX -->
 		<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
 		crossorigin="anonymous"></script>
 		<!--end::Javascript-->
+
 	</body>
 	<!--end::Body-->
 	@yield('js')

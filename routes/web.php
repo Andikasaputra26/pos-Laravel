@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    // Route::get('dashboard', [OrderController::class, 'chart']);
 
     Route::get('/', function () {
         return redirect()->route('login');
@@ -50,8 +51,9 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(PembelianController::class)->prefix('pembelian')->group(function () {
         Route::get('', 'index')->name('pembelian');
-        Route::post('tambah', 'store')->name('pembelian.simpan');
+        Route::post('checkout', 'store')->name('pembelian.simpan');
     });
+    Route::get('invoice/{id}', [PembelianController::class, 'invoice']);
 
     Route::controller(OrderController::class)->prefix('order')->group(function () {
         Route::get('', 'index')->name('order');
