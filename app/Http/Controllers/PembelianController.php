@@ -74,22 +74,6 @@ class PembelianController extends Controller
         return view('pembelian.checkout', compact('snapToken', 'pembelian', 'product'));
     }
 
-    // public function getAll()
-    // {
-    //     $pembelian = PembelianItem::all();
-    // }
-    // public function getGrouped()
-    // {
-    //     $pembelian = Pembelian::all();
-    // @foreach($pembelian as $table)
-    // <table>
-    //      @foreach($table->item_pembelian() as $item)
-    //      <tr>{{ $item->product->name_product }}</tr>
-    //      @endforeach
-    // </table>
-    // @endforeach
-    // }
-
     public function callback(Request $request)
     {
         $serverKey = config('midtrans.server_key');
@@ -106,5 +90,16 @@ class PembelianController extends Controller
     {
         $pembelian = Pembelian::with($id);
         return view('pembelian.invoice', compact('pembelian'));
+    }
+
+    public function grafik()
+    {
+        $dataPenjualan = Pembelian::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, SUM(total_harga) as total_sales')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
+
+        return view('dashboard', compact('dataPenjualan'));
     }
 }
